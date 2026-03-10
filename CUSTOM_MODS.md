@@ -13,7 +13,7 @@ When a toast notification is triggered (e.g. via OSC 777), clicking it now focus
 ### What changed
 
 - **`wezterm-toast-notification`**: Added an `on_click` callback field to `ToastNotification`. Platform-specific implementations (Windows, macOS, D-Bus/Linux) invoke this callback when the user clicks the notification.
-- **`wezterm-gui/src/frontend.rs`**: When a `ToastNotification` alert is received with `focus: true`, an `on_click` closure is attached that calls `mux.focus_pane_and_containing_tab(pane_id)` to switch to the originating pane/tab.
+- **`wezterm-gui/src/frontend.rs`**: When a `ToastNotification` alert is received with `focus: true`, an `on_click` closure is attached that calls `mux.focus_pane_and_containing_tab(pane_id)` to switch to the originating pane/tab, **and** brings the OS window to the foreground via `gui_win.window.focus()` — this also switches virtual desktops on Windows when the notification originates from a window on a different desktop.
 
 ### New config option: `notification_handling`
 

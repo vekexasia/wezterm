@@ -140,6 +140,21 @@ impl GuiFrontEnd {
                                                      click: {err:#}"
                                                 );
                                             }
+
+                                            // Also bring the OS window to the
+                                            // foreground (switches virtual desktop
+                                            // on Windows if needed).
+                                            if let Some((_domain, window_id, _tab_id)) =
+                                                mux.resolve_pane_id(pane_id)
+                                            {
+                                                if let Some(fe) = crate::frontend::try_front_end() {
+                                                    if let Some(gui_win) =
+                                                        fe.gui_window_for_mux_window(window_id)
+                                                    {
+                                                        gui_win.window.focus();
+                                                    }
+                                                }
+                                            }
                                         })
                                         .detach();
                                     })
